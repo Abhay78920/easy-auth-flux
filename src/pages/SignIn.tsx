@@ -38,6 +38,10 @@ const SignIn = () => {
     }, 1000);
   };
 
+  const handleBackToEmail = () => {
+    setStep(1);
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -54,11 +58,13 @@ const SignIn = () => {
       case 2:
         return (
           <PasswordSignInStep
+            email={formData.email}
             password={formData.password}
             onPasswordChange={(value) =>
               setFormData({ ...formData, password: value })
             }
             onSignIn={handleSignIn}
+            onBackToEmail={handleBackToEmail}
           />
         );
       default:
