@@ -1,6 +1,6 @@
 import React from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FloatingLabelInput } from "@/components/ui/floating-label-input";
 
 interface EmailStepProps {
   email: string;
@@ -22,12 +22,12 @@ const EmailStep: React.FC<EmailStepProps> = ({
         <p className="text-gray-600">Provide your email address to continue.</p>
       </div>
 
-      <Input
+      <FloatingLabelInput
         type="email"
-        placeholder="Email"
+        label="Email"
         value={email}
         onChange={(e) => onEmailChange(e.target.value)}
-        className="w-full p-3 rounded-lg border border-gray-300"
+        className="w-full rounded-lg border border-gray-300"
       />
 
       <Button

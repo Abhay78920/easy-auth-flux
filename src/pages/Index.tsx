@@ -6,10 +6,12 @@ import PhoneStep from "@/components/registration/PhoneStep";
 import OtpStep from "@/components/registration/OtpStep";
 import PrivacyStep from "@/components/registration/PrivacyStep";
 import { useToast } from "@/components/ui/use-toast";
+import { LoadingLine } from "@/components/ui/loading-line";
 
 const Index = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,16 +23,25 @@ const Index = () => {
   });
 
   const handleNext = () => {
-    setStep((prev) => prev + 1);
+    setIsLoading(true);
+    // Simulate API call delay
+    setTimeout(() => {
+      setStep((prev) => prev + 1);
+      setIsLoading(false);
+    }, 1000);
   };
 
   const handleComplete = () => {
-    toast({
-      title: "Registration Complete",
-      description: "Your account has been created successfully!",
-    });
-    // Here you would typically submit the form data to your backend
-    console.log("Form submitted:", formData);
+    setIsLoading(true);
+    setTimeout(() => {
+      toast({
+        title: "Registration Complete",
+        description: "Your account has been created successfully!",
+      });
+      setIsLoading(false);
+      // Here you would typically submit the form data to your backend
+      console.log("Form submitted:", formData);
+    }, 1000);
   };
 
   const renderStep = () => {
@@ -111,6 +122,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <LoadingLine isLoading={isLoading} />
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <img
