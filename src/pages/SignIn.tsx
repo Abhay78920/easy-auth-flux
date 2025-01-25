@@ -17,7 +17,6 @@ const SignIn = () => {
 
   const handleNext = () => {
     setIsLoading(true);
-    // Simulate API call delay
     setTimeout(() => {
       setStep((prev) => prev + 1);
       setIsLoading(false);
@@ -26,15 +25,13 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     setIsLoading(true);
-    // Simulate API call delay
     setTimeout(() => {
       toast({
         title: "Sign In Successful",
         description: "Welcome back!",
       });
       setIsLoading(false);
-      // Here you would typically handle the authentication logic
-      console.log("Sign in data:", formData);
+      navigate("/dashboard");
     }, 1000);
   };
 
