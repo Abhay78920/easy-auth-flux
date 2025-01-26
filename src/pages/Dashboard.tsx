@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 import { Bell, HelpCircle, Grid, User } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RootState } from '../store/store';
 
 const Dashboard = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -17,19 +20,22 @@ const Dashboard = () => {
             />
 
             {/* Navigation Tabs */}
-            <Tabs defaultValue="home" className="flex-1 px-8">
-              <TabsList className="bg-gray-100 p-1">
-                <TabsTrigger
-                  value="home"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white"
-                >
+            <div className="flex-1 px-8">
+              <div className="flex space-x-4 bg-gray-100 p-1 rounded-lg">
+                <button className="px-4 py-2 rounded-md bg-blue-500 text-white">
                   Home
-                </TabsTrigger>
-                <TabsTrigger value="profile">Profile Info</TabsTrigger>
-                <TabsTrigger value="security">Security</TabsTrigger>
-                <TabsTrigger value="privacy">Privacy</TabsTrigger>
-              </TabsList>
-            </Tabs>
+                </button>
+                <button className="px-4 py-2 rounded-md hover:bg-gray-200">
+                  Profile Info
+                </button>
+                <button className="px-4 py-2 rounded-md hover:bg-gray-200">
+                  Security
+                </button>
+                <button className="px-4 py-2 rounded-md hover:bg-gray-200">
+                  Privacy
+                </button>
+              </div>
+            </div>
 
             {/* Right Icons */}
             <div className="flex items-center space-x-4">
@@ -54,7 +60,9 @@ const Dashboard = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Welcome Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Welcome Aejun</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            Welcome {user?.firstName} {user?.lastName}
+          </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Take charge of your information, privacy, and security to unlock a
             seamless, powerful experience with Praanm.
@@ -63,30 +71,33 @@ const Dashboard = () => {
 
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Manage Profile Info */}
+          {/* Profile Info Card */}
           <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="text-xl font-semibold mb-4">
-              Manage your Profile Info
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
+            <div className="space-y-2 text-gray-600">
+              <p>Email: {user?.email}</p>
+              <p>Phone: {user?.phoneNumber}</p>
+            </div>
           </div>
 
-          {/* Manage Data and Privacy */}
+          {/* Privacy Card */}
           <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
             <h2 className="text-xl font-semibold mb-4">
-              Manage your Data and Privacy
+              Data and Privacy Settings
             </h2>
+            <p className="text-gray-600">Manage your privacy preferences</p>
           </div>
 
-          {/* Change Password */}
+          {/* Security Card */}
           <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="text-xl font-semibold mb-4">Change your Password</h2>
+            <h2 className="text-xl font-semibold mb-4">Security Settings</h2>
+            <p className="text-gray-600">Update your password and security options</p>
           </div>
 
-          {/* Security Preferences */}
+          {/* Preferences Card */}
           <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="text-xl font-semibold mb-4">
-              Manage you security preference
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Account Preferences</h2>
+            <p className="text-gray-600">Customize your account settings</p>
           </div>
         </div>
       </main>

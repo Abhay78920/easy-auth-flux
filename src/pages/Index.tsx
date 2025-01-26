@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slices/authSlice';
 import NameStep from "@/components/registration/NameStep";
 import EmailStep from "@/components/registration/EmailStep";
 import PasswordStep from "@/components/registration/PasswordStep";
 import PhoneStep from "@/components/registration/PhoneStep";
 import OtpStep from "@/components/registration/OtpStep";
 import PrivacyStep from "@/components/registration/PrivacyStep";
-import { useToast } from "@/components/ui/use-toast";
 import { LoadingLine } from "@/components/ui/loading-line";
 
 const Index = () => {
-  const { toast } = useToast();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -24,7 +27,6 @@ const Index = () => {
 
   const handleNext = () => {
     setIsLoading(true);
-    // Simulate API call delay
     setTimeout(() => {
       setStep((prev) => prev + 1);
       setIsLoading(false);
@@ -34,13 +36,14 @@ const Index = () => {
   const handleComplete = () => {
     setIsLoading(true);
     setTimeout(() => {
-      toast({
-        title: "Registration Complete",
-        description: "Your account has been created successfully!",
-      });
+      dispatch(setUser({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+      }));
       setIsLoading(false);
-      // Here you would typically submit the form data to your backend
-      console.log("Form submitted:", formData);
+      navigate("/dashboard");
     }, 1000);
   };
 
@@ -101,10 +104,7 @@ const Index = () => {
             onOtpChange={(value) => setFormData({ ...formData, otp: value })}
             onNext={handleNext}
             onResend={() => {
-              toast({
-                title: "OTP Resent",
-                description: "A new verification code has been sent to your phone.",
-              });
+              // Handle OTP resend logic here
             }}
           />
         );
@@ -122,7 +122,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <LoadingLine isLoading={isLoading} />
+      {isLoading && (
+        <div className="h-1 bg-gray-200 w-full overflow-hidden">
+          <div className="h-full bg-blue-500 animate-loading-line"></div>
+        </div>
+      )}
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <img

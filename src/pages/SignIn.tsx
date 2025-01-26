@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slices/authSlice';
 import EmailSignInStep from "@/components/signin/EmailSignInStep";
 import PasswordSignInStep from "@/components/signin/PasswordSignInStep";
-import { LoadingLine } from "@/components/ui/loading-line";
-import { useToast } from "@/components/ui/use-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -25,11 +25,14 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     setIsLoading(true);
+    // Simulate API call
     setTimeout(() => {
-      toast({
-        title: "Sign In Successful",
-        description: "Welcome back!",
-      });
+      dispatch(setUser({
+        email: formData.email,
+        firstName: "John", // This would come from your API
+        lastName: "Doe",   // This would come from your API
+        phoneNumber: "",   // This would come from your API
+      }));
       setIsLoading(false);
       navigate("/dashboard");
     }, 1000);
@@ -71,7 +74,11 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <LoadingLine isLoading={isLoading} />
+      {isLoading && (
+        <div className="h-1 bg-gray-200 w-full overflow-hidden">
+          <div className="h-full bg-blue-500 animate-loading-line"></div>
+        </div>
+      )}
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <img
