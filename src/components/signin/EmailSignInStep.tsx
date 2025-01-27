@@ -1,21 +1,25 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { FloatingLabelInput } from "@/components/ui/floating-label-input";
+import { useNavigate } from "react-router-dom";
 
 interface EmailSignInStepProps {
   email: string;
   onEmailChange: (value: string) => void;
   onNext: () => void;
-  onSignUp: () => void;
 }
 
 const EmailSignInStep: React.FC<EmailSignInStepProps> = ({
   email,
   onEmailChange,
   onNext,
-  onSignUp,
 }) => {
+  const navigate = useNavigate();
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSignUp = () => {
+    navigate("/register");
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -35,7 +39,7 @@ const EmailSignInStep: React.FC<EmailSignInStepProps> = ({
       <div className="flex justify-between items-center pt-4">
         <Button
           variant="outline"
-          onClick={onSignUp}
+          onClick={handleSignUp}
           className="w-32"
         >
           Sign up
