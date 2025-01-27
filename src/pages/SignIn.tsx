@@ -52,7 +52,6 @@ const SignIn = () => {
               setFormData({ ...formData, email: value })
             }
             onNext={handleNext}
-            onSignUp={() => navigate("/")}
           />
         );
       case 2:
