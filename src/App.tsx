@@ -6,28 +6,13 @@ import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 
 const queryClient = new QueryClient();
 
-// Check if we're on the correct domain
-const isCorrectDomain = window.location.hostname === 'accounts.praanm.com';
-
 const AppRoutes = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-
-  useEffect(() => {
-    // Log domain-related information for debugging
-    console.log('Current hostname:', window.location.hostname);
-    console.log('Is correct domain:', isCorrectDomain);
-    console.log('Is authenticated:', isAuthenticated);
-  }, [isAuthenticated]);
-
-  if (!isCorrectDomain) {
-    return <div>Access this application at accounts.praanm.com</div>;
-  }
 
   return (
     <Routes>
