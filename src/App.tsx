@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-  console.log(isAuthenticated);
+  console.log("Authentication status:", isAuthenticated);
   return (
     <Routes>
       <Route
