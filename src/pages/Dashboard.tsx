@@ -1,12 +1,48 @@
+
 import React from "react";
-import { useSelector } from 'react-redux';
-import { Bell, HelpCircle, Grid, User } from "lucide-react";
+import { useSelector, useDispatch } from 'react-redux';
+import { Bell, HelpCircle, Grid, User, LogOut } from "lucide-react";
 import { RootState } from '../store/store';
 import { useIsMobile } from "../hooks/use-mobile";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store/slices/authSlice";
 
 const Dashboard = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const isMobile = useIsMobile();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/signin');
+  };
+
+  const UserButton = () => (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
+          <User className="w-5 h-5 text-gray-600" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-48">
+        <div className="flex flex-col space-y-2">
+          <p className="text-sm text-gray-500 px-2">
+            Signed in as<br/>
+            <span className="font-medium text-gray-900">{user?.email}</span>
+          </p>
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-2 w-full px-2 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log out</span>
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -25,9 +61,7 @@ const Dashboard = () => {
                 <button className="p-2 hover:bg-gray-100 rounded-full">
                   <Bell className="w-5 h-5 text-gray-600" />
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full">
-                  <User className="w-5 h-5 text-gray-600" />
-                </button>
+                <UserButton />
               </div>
             </div>
 
@@ -60,9 +94,7 @@ const Dashboard = () => {
               <button className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
                 <Grid className="w-5 h-5 text-gray-600" />
               </button>
-              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
-                <User className="w-5 h-5 text-gray-600" />
-              </button>
+              <UserButton />
             </div>
           </div>
         </div>
